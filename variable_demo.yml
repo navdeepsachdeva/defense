@@ -1,0 +1,55 @@
+- name: Variable Demo
+  hosts: cisco,juniper
+  gather_facts: false
+  roles:
+    - role: interface_role
+  vars:
+    interface_role_desc: "Level12_play_vars"
+  # Interactive Input Development Level #
+  vars_prompt:
+    - name: interface_role_desc
+      prompt: "Please Enter Level !"
+      private: false
+  vars_files:
+    - vars/outside_vars.yml
+
+  tasks:
+    - name: set a FACT
+      ansible.builtin.set_fact:
+        interface_role_desc: "Level19_SET_FACT"
+
+    - name: Include a Variable File
+      ansible.builtin.include_vars:
+        file: vars/external_vars.yml
+      when: youyou is not defined
+
+    - name: Outside Block Task 1
+      ansible.builtin.debug:
+        msg: "Level = {{ interface_role_desc }}"
+
+    - name: Run a Role based on condition
+      ansible.builtin.include_role:
+        name: interface_role
+      vars:
+        interface_role_desc: "Level20_ROLE_include_vars"
+      when: youyou is not defined
+
+    - name: Block of Tasks
+      block:
+        - name: Inside Block Task 1
+          ansible.builtin.debug:
+            msg: "Level = {{ interface_role_desc }}"
+          vars:
+             interface_role_desc: "Level17_task_vars"
+        - name: Inside Block Task 1
+          ansible.builtin.debug:
+            msg: "Level = {{ interface_role_desc }}"
+      when: youyou is not defined
+      vars:
+        interface_role_desc: "Level16_block_vars"
+
+    - name: Outside Block Task 1
+      ansible.builtin.debug:
+        msg: "Level = {{ interface_role_desc }}"
+
+# ansible-navigator run variable_demo.yml --limit=iosxe1.lab.example.com --extra-vars='interface_role_desc="Level22_GOD_LEVEL_COMMAND_LINE"'

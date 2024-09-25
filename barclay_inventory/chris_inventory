@@ -1,0 +1,43 @@
+## INI Inventory Format ##
+
+utility.lab.example.com
+
+[all:vars]
+interface_role_desc = "Level3_inventory_file"
+ansible_user=student
+ansible_ssh_private_key_file=~/.ssh/lab_rsa
+
+#[git]
+#git.lab.example.com
+
+[control]
+workstation.lab.example.com
+
+[arista]
+arista1.lab.example.com
+arista2.lab.example.com
+
+[juniper]
+junos1.lab.example.com
+junos2.lab.example.com
+
+[juniper:vars]
+ansible_connection=ansible.netcommon.netconf
+ansible_network_os=junos
+
+[cisco]
+iosxe1.lab.example.com
+iosxe2.lab.example.com interface_role_desc="Level8_inventory_file_iosxe2"
+
+[cisco:vars]
+ansible_connection=ansible.netcommon.network_cli
+ansible_network_os=ios
+
+[ohio:children]
+cisco
+arista
+
+# [range]
+# barclay_[A:F].lab.example.com
+# 192.168.[1:4].[5:8]
+# fe80::a0e8:40ff:fe71:e40[7:10]

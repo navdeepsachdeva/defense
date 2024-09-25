@@ -1,0 +1,31 @@
+- name: Basic for Utility SYstem
+  # hosts: utility*
+  hosts: git,control
+  remote_user: devops
+  become: true
+  become_user: root
+  become_method: sudo
+  gather_facts: false
+
+  tasks:
+    - name: Creata a user by default builtin modules
+      ansible.builtin.user:
+        name: richard
+        comment: "Richard User CHECK ME"
+    # - name: Use a module from VEdnor CUstom Collections 
+    #   cisco.aci.aci_snmp_user:
+    #     host: apic
+    #     username: admin
+
+
+
+    # - name: Create a file
+    #   copy:
+    #     content: "Hello Richard"
+    #     dest: /tmp/file1
+
+    # - name: Read passwd file
+    #   command: tail -4 /etc/passwd
+
+    # - name: Read Shadow file
+    #   command: tail -4 /etc/shadow

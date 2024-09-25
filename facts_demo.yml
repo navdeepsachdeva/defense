@@ -1,0 +1,45 @@
+- name: Facts Demo
+  hosts: iosxe1*
+  gather_facts: false ## Only min facts
+  tasks:
+    - name: Collect Facts Manually
+      cisco.ios.ios_facts:
+        gather_subset:
+          - 'all'
+          # - '!config'
+    - name: Print Facts
+      ansible.builtin.debug:
+        msg: >
+            {{ ansible_net_api }}
+            {{ ansible_net_hostname }}
+            {{ ansible_net_image }}
+            {{ ansible_net_serialnum }}
+            {{ ansible_net_python_version }}
+            {{ ansible_net_model }}
+        # msg: "{{ ansible_net_api }} {{ ansible_net_hostname }} {{ ansible_net_image }} {{ ansible_net_serialnum }} {{ ansible_net_python_version }} {{ ansible_net_model }}"
+
+    - name: Print Facts In File
+      ansible.builtin.copy:
+        content: |
+            {{ ansible_facts.net_api }}
+            {{ ansible_facts['net_api'] }}
+            {{ ansible_net_api }}
+            {{ ansible_net_hostname }}
+            {{ ansible_net_image }}
+            {{ ansible_net_serialnum }}
+            {{ ansible_net_python_version }}
+            {{ ansible_net_model }}
+            {{ ansible_net_filesystems_info }}
+            {{ ansible_net_interfaces.GigabitEthernet1.macaddress }}
+        dest: /tmp/file
+      delegate_to: workstation.lab.example.com
+    - name: Banner for the Device
+      cisco.ios.ios_banner:
+        banner: login
+        text: "Testing_{{ ansible_net_memtotal_mb }}"
+        state: present
+      when: ansible_net_model == "C8000V"
+
+# ansible -i inventory/ iosxe1.lab.example.com -m cisco.ios.ios_facts -c network_cli -u student --ask-pass -e 'ansible_network_os=ios'
+
+# ansible -i inventory/ iosxe1.lab.example.com -m cisco.ios.ios_facts -c network_cli -u student --ask-pass -e 'ansible_network_os=ios' -a 'gather_subset=all'

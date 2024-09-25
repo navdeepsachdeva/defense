@@ -1,0 +1,4 @@
+---
+# defaults file for interface_role
+interface_role_name: GigabitEthernet1
+interface_role_desc: Level2_role_defaults

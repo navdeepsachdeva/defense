@@ -1,0 +1,6 @@
+---
+# handlers file for interface_role
+
+- name: Save Configurations
+  cisco.ios.ios_config:
+    save_when: always

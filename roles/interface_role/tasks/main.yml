@@ -1,0 +1,15 @@
+---
+# tasks file for interface_role
+
+- name: Print the Variables
+  ansible.builtin.debug:
+    msg: "Level = {{ interface_role_desc }}"
+
+# - name: Change Interface Description
+#   cisco.ios.ios_interfaces:
+#     config:
+#       - name: "{{ interface_role_name }}"
+#         description: "{{ interface_role_desc }}"
+#         enabled: true
+#   notify:
+#     - Save Configurations

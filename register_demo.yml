@@ -1,0 +1,38 @@
+- name: Cisco Playbook
+  hosts: iosxe1*
+  gather_facts: false
+  tasks:
+    - name: Change Interface Description
+      cisco.ios.ios_interfaces:
+        config:
+          - name: GigabitEthernet1
+            description: "Configures_ANSIBLE1"
+            enabled: true
+      register: larson_capture
+      notify:
+        - AGAIn Banner for the Device
+
+    - name: Print Full output
+      ansible.builtin.debug:
+        msg: "{{ larson_capture }}"
+
+    - name: Print Selected output
+      ansible.builtin.debug:
+        msg: "{{ ansible_connection }} // {{ ansible_network_os }} // {{ larson_capture.changed }} ----- {{ larson_capture.after[0].description }}"
+      notify:
+        - Banner for the Device
+
+    - name: Banner for the Device
+      cisco.ios.ios_banner:
+        banner: login
+        text: "Testing11"
+        state: present
+      when: larson_capture.after[0].description == "Configures_ANSIBLE1"
+
+  handlers:
+    - name: AGAIn Banner for the Device
+      cisco.ios.ios_banner:
+        banner: login
+        text: "Testing22"
+        state: present
+      # when: larson_capture.changed == true
