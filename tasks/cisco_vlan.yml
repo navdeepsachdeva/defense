@@ -1,0 +1,11 @@
+- name: Cisco vlan Task 1
+  ansible.builtin.command: sleep 1
+
+- name: Cisco vlan Task 2
+  ansible.builtin.command: sleep 1
+
+- name: Cisco vlan Task 3
+  ansible.builtin.command: sleep 1
+
+- name: Cisco vlan Task 4
+  ansible.builtin.command: sleep 1

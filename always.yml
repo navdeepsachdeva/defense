@@ -1,0 +1,8 @@
+- name: Always Playbook
+  hosts: iosxe1*
+  gather_facts: false
+  tasks:
+    - name: Always Task
+      ansible.builtin.debug:
+        msg: "Always Output"
+      

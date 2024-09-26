@@ -1,0 +1,8 @@
+- name: Failure Playbook
+  hosts: iosxe1*
+  gather_facts: false
+  tasks:
+    - name: Failure Task
+      ansible.builtin.debug:
+        msg: "Failure Output"
+      

@@ -1,0 +1,56 @@
+- name: Debug Strategy Demo
+  hosts: iosxe1*
+  gather_facts: false
+  strategy: debug
+  tasks:
+    - name: Task 1
+      ansible.builtin.command: sleep 2
+      register: output
+
+    - name: Task 20
+      ansible.builtin.debug:
+        msg: "Task 20"
+
+    - name: Change GigabitEthernet2 Task 21
+      cisco.ios.ios_interfaces:
+        config:
+          - name: GigabitEthernet22
+            description: "descc_{{ output.changed }}"
+            enabled: true
+    # task.args
+    # task.args['config']=[{'name': 'GigabitEthernet2', 'description': 'descc_True', 'enabled': True}]
+    # task.args
+    # redo
+
+    - name: Displaying VLAN id 11 information
+      cisco.ios.ios_command:
+        commands:
+          - show vlan id 11
+      # ignore_errors: true
+    # task.args
+    # task.args['commands']=['show vlan id 1']
+    # task.args
+    # redo
+
+    - name: Change GigabitEthernet1
+      cisco.ios.ios_interfaces:
+        config:
+          - name: GigabitEthernet11
+            descriptionn: "Configures_ANSIBLE"
+            enabled: true
+    # task.args
+    # task.args['config']=[{'name': 'GigabitEthernet1', 'description': 'Configures_ANSIBLE', 'enabled': True}]
+    # task.args
+    # redo
+    #
+    - name: Create User
+      cisco.ios.ios_user:
+        name: chrisf
+        configured_password: 'redhat123'
+        update_password: alwaysss
+        stateeee: present
+    # task.args
+    # task.args['update_password']='always'
+    # task.args['state']='present'
+    # del(task.args['stateeee'])
+    # redo

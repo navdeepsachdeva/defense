@@ -11,6 +11,12 @@
         lines:
           - "{{ item }}"
       loop: "{{ query('ansible.builtin.items', cisco_commands) }}"
+      register: captured
+
+    - name: Print Captured Output
+      ansible.builtin.debug:
+        msg: "{{ item.item }} // {{ item.changed }}"
+      loop: "{{ captured.results }}"
 
     - name: Set Desc for interface via loop
       cisco.ios.ios_interfaces:

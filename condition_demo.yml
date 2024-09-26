@@ -1,0 +1,55 @@
+- name: Loops Demo
+  hosts: iosxe1*
+  gather_facts: false
+  vars_files:
+    - vars/outside_vars.yml
+  # loop started from ansible 2.5
+  # loop only accept list
+  tasks:
+    - name: Collect Facts Manually
+      cisco.ios.ios_facts:
+        gather_subset:
+          - 'all'
+    
+    - name: Print Facts In File
+      ansible.builtin.copy:
+        content: |
+            {{ ansible_facts.net_api }}
+            {{ ansible_facts['net_api'] }}
+            {{ ansible_net_api }}
+            {{ ansible_net_hostname }}
+            {{ ansible_net_image }}
+            {{ ansible_net_serialnum }}
+            {{ ansible_net_python_version }}
+            {{ ansible_net_model }}
+            {{ ansible_net_filesystems_info }}
+            {{ ansible_net_memtotal_mb }}
+            {{ ansible_net_interfaces.GigabitEthernet1.macaddress }}
+        dest: /tmp/file
+      delegate_to: workstation.lab.example.com
+
+
+    - name: Print Simple List
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      when: item == "GigabitEthernet2"
+      loop: "{{ query('ansible.builtin.items', simple_list) }}"
+
+    - name: Set Desc for interface via loop
+      cisco.ios.ios_interfaces:
+        config:
+          - name: GigabitEthernet1
+            description: "Configures_ANSIBLE2"
+            enabled: true
+      register: captured
+
+    - name: Banner for the Device
+      cisco.ios.ios_banner:
+        banner: login
+        text: "Testing221"
+        state: present
+      when:
+        - captured.changed == true or ansible_net_serialnum == "985N8PYW4QS"
+        - ansible_net_memtotal_mb > 2028090
+      # when: captured.changed == true and ansible_net_memtotal_mb > 2028090
+

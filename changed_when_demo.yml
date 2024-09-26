@@ -1,0 +1,46 @@
+- name: Changed When Demo Playbook
+  hosts: iosxe1.lab.example.com
+  gather_facts: false
+  # force_handlers: true
+  tasks:
+
+    - name: Change Interface Description
+      cisco.ios.ios_interfaces:
+        config:
+          - name: GigabitEthernet1
+            description: "Configures_ANSIBLE1"
+            enabled: true
+      register: output
+      changed_when: output.changed == false
+      notify:
+        - interface handler
+        - Save Configurations 
+
+    - name: Banner for the Device
+      cisco.ios.ios_banner:
+        banner: login
+        text: "Testing"
+        state: present
+      notify:
+        - Save Configurations 
+        - Banner handler
+
+    - name: Extra Task
+      ansible.builtin.debug:
+        msg: "Soemthing"
+
+  handlers:
+    - name: interface handler
+      ansible.builtin.debug:
+        msg: "First Handler"
+      
+    - name: Banner handler
+      ansible.builtin.debug:
+        msg: "Banner Handler"
+
+    - name: Save Configurations
+      cisco.ios.ios_config:
+        save_when: always
+
+
+

@@ -1,0 +1,16 @@
+- name: Ignore Errors Demo
+  hosts: iosxe1*
+  gather_facts: false
+  tasks:
+    - name: Displaying VLAN id 11 information
+      cisco.ios.ios_command:
+        commands:
+          - show vlan id 11
+      ignore_errors: true
+
+    - name: Change Interface Description
+      cisco.ios.ios_interfaces:
+        config:
+          - name: GigabitEthernet1
+            description: "Configures_ANSIBLE22"
+            enabled: true

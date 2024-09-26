@@ -1,0 +1,67 @@
+- name: Changed When Demo Playbook
+  hosts: iosxe1.lab.example.com
+  gather_facts: false
+  tasks:
+
+    - name: Outside Block Task 1
+      ansible.builtin.debug:
+        msg: "Level = {{ interface_role_desc }}"
+
+    - name: Block of Tasks
+      block:
+        - name: Change Interface Description
+          cisco.ios.ios_interfaces:
+            config:
+              - name: GigabitEthernet1
+                description: "Configures_ANSIBLE2"
+                enabled: true
+
+        - name: Banner for the Device
+          cisco.ios.ios_banner:
+            banner: login
+            text: "Testing"
+            state: present
+
+        - name: print me
+          ansible.builtin.debug:
+            msg: "{{ interface_role_desc }}"
+
+        - name: print me AGAIN
+          ansible.builtin.debug:
+            msg: "{{ interface_role_desc }}"
+
+      when: youme is not defined
+      rescue:
+        - name: Restore everything to OLD Config
+          ansible.builtin.debug:
+            msg: "MAY DAY MAY DAY"
+
+        - name: Change Back to Old Description
+          cisco.ios.ios_interfaces:
+            config:
+              - name: GigabitEthernet1
+                description: "Configures_ANSIBLE"
+                enabled: true
+
+        - name: Change to Old Banner
+          cisco.ios.ios_banner:
+            banner: login
+            text: "Testing_OLD"
+            state: present
+      always:
+        - name: send email to customer
+          ansible.builtin.debug:
+            msg: "EMail sent"
+        - name: Save Configurations
+          cisco.ios.ios_config:
+            save_when: always
+
+
+
+    - name: Extra Task
+      ansible.builtin.debug:
+        msg: "Soemthing"
+
+
+
+
