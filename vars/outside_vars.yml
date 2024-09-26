@@ -1,1 +1,31 @@
 interface_role_desc: "Level14_play_vars_files"
+myips:
+  - 172.25.250.254
+  - 10.10.2.20/8
+  - 192.168.2.15/24
+  - 266.55.44.33
+  - 100.33.66.55/8
+  - 192.268.2.15/24
+  - fe80::a1c0:e2e5:a201:8cfa/64
+  - 100.24.45.24
+  - 88.22.44.55
+
+simple_list:
+  - GigabitEthernet1
+  - GigabitEthernet2
+
+complex_list:
+  - name: GigabitEthernet1
+    desc: "Description_GigabitEthernet1"
+  - name: GigabitEthernet2
+    desc: "Description_GigabitEthernet2"
+
+nic_dict:
+  GigabitEthernet1: "Dict_GigabitEthernet1"
+  GigabitEthernet2: "Dict_GigabitEthernet2"
+  # key: value
+
+cisco_commands:
+  - service timestamps debug datetime msec
+  - service timestamps log datetime msec localtime
+  - service password-encryption

@@ -1,0 +1,59 @@
+- name: Loops Demo
+  hosts: iosxe1*
+  gather_facts: false
+  vars_files:
+    - vars/outside_vars.yml
+  # loop started from ansible 2.5
+  # loop only accept list
+  tasks:
+    - name: Run Multiple Cisco Commands
+      cisco.ios.ios_config:
+        lines:
+          - "{{ item }}"
+      loop: "{{ query('ansible.builtin.items', cisco_commands) }}"
+
+    - name: Set Desc for interface via loop
+      cisco.ios.ios_interfaces:
+        config:
+          - name: "{{ item.name }}"
+            description: "{{ item.desc }}"
+            enabled: true
+      loop: "{{ query('ansible.builtin.items', complex_list) }}"
+
+    - name: Print stuff
+      ansible.builtin.debug:
+        msg: "{{ query('ansible.builtin.items', simple_list) }}"
+    - name: Print Simple List
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ query('ansible.builtin.items', simple_list) }}"
+      # with_items: "{{ simple_list }}"
+      # loop: "{{ simple_list }}" 
+
+    - name: Print Complex List
+      ansible.builtin.debug:
+        msg: "{{ item.name }} == {{ item.desc }}"
+      loop: "{{ lookup('ansible.builtin.list',complex_list) }}"
+      # with_list: "{{ complex_list }}" 
+      # loop: "{{ complex_list }}" 
+
+    - name: Print Dictionary
+      ansible.builtin.debug:
+        msg: "{{ item.key }} // {{ item.value }}"
+      loop: "{{ lookup('ansible.builtin.dict',nic_dict) }}"
+      # with_dict: "{{ nic_dict }}"
+      #loop: "{{ nic_dict | dict2items }}"
+      
+    - name: Print Sequence
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ query('ansible.builtin.sequence','start=0 end=6 format=GigabitEthernet%x') }}"
+        # msg: "GigabitEthernet{{ item }}"
+      # with_sequence: start=0 end=6 format=GigabitEthernet%x
+
+    - name: Print list of file
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ query('ansible.builtin.fileglob','vars/*') }}"
+      # with_fileglob:
+      #  - 'vars/*'

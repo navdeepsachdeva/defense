@@ -1,0 +1,21 @@
+- name: Filters Demo
+  hosts: iosxe1*
+  gather_facts: false
+  vars_files:
+    - vars/outside_vars.yml
+  tasks:
+    - name: Change Interface Description
+      cisco.ios.ios_interfaces:
+        config:
+          - name: GigabitEthernet1
+            # description: "{{ interface_role_descc | default('not_available') | upper }}"
+            # description: "{{ interface_role_desc | upper | length }}"
+            description: "{{ 'Configures_ANSIBLE11' | upper }}"
+            enabled: true
+    - name: Print Valid IP
+      ansible.builtin.debug:
+        msg: "{{ myips |  ansible.utils.ipv4('public') | ansible.utils.ipv4('revdns') }}"
+        # msg: "{{ myips | ansible.utils.ipaddr | ansible.utils.ipv4}}"
+    - name: Next Usable
+      ansible.builtin.debug:
+        msg: "{{ '192.0.2.6' | ansible.utils.ipaddr | ansible.utils.network_in_usable('192.0.2.5') }}"
