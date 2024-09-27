@@ -1,0 +1,18 @@
+---
+# handlers file for cisco_setup
+
+- name: change_started
+  ansible.builtin.debug:
+    msg: "Cisco Config Chage Started"
+
+- name: First Interface Changed
+  ansible.builtin.debug:
+    msg: "{{ cisco_setup_nic1_name }} Interface Changed"
+
+- name: Second Interface Changed
+  ansible.builtin.debug:
+    msg: "{{ cisco_setup_nic2_name }} Interface Changed"
+
+- name: Save Configurations
+  cisco.ios.ios_config:
+    save_when: always

@@ -20,6 +20,13 @@ complex_list:
   - name: GigabitEthernet2
     desc: "Description_GigabitEthernet2"
 
+banner_list:
+  - name: login
+    text: "This is Login ANsible"
+  - name: motd
+    text: "This is MOTD ANsible"
+
+
 nic_dict:
   GigabitEthernet1: "Dict_GigabitEthernet1"
   GigabitEthernet2: "Dict_GigabitEthernet2"

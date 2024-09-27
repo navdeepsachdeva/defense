@@ -1,0 +1,8 @@
+interface GigabitEthernet1
+  description Description_GigabitEthernet1
+interface GigabitEthernet2
+  description Description_GigabitEthernet2
+
+
+banner login @\nThis is Login ANsible\n@
+banner motd @\nThis is MOTD ANsible\n@

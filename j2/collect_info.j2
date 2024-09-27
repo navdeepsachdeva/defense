@@ -1,0 +1,18 @@
+{% for sys in groups["cisco"] %}
+
+## Information about {{ hostvars[sys].inventory_hostname }} ##
+System Info	= 	{{ sys }}
+Inventory Host	= 	{{ hostvars[sys].inventory_hostname }}
+API		=	{{ hostvars[sys].ansible_facts.net_api }}
+API		=	{{ hostvars[sys].ansible_facts['net_api'] }}
+API		=	{{ hostvars[sys].ansible_net_api }}
+Hostname	=	{{ hostvars[sys].ansible_net_hostname }}
+Image		=	{{ hostvars[sys].ansible_net_image }}
+Serial Number	=	{{ hostvars[sys].ansible_net_serialnum }}
+Python Version	=	{{ hostvars[sys].ansible_net_python_version }}
+Model		=	{{ hostvars[sys].ansible_net_model }}
+FileSYetm	=	{{ hostvars[sys].ansible_net_filesystems_info }}
+Mac Address GI1	=	{{ hostvars[sys].ansible_net_interfaces.GigabitEthernet1.macaddress }}
+Mac Address GI2	=	{{ hostvars[sys].ansible_net_interfaces.GigabitEthernet2.macaddress }}
+
+{% endfor %}

@@ -1,0 +1,9 @@
+## By Default Download from https://galaxy.ansible.com/  ##
+
+- src: navdeepsachdeva.windows_iis
+
+- src: geerlingguy.mysql
+
+- src: geerlingguy.tomcat6
+  name: richard_tomcat
+  

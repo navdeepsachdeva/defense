@@ -1,0 +1,7 @@
+---
+# defaults file for cisco_setup
+
+cisco_setup_nic1_name: GigabitEthernet1
+cisco_setup_nic1_desc: "Nic1 Done Level2"
+cisco_setup_nic2_name: GigabitEthernet2
+cisco_setup_nic2_desc: "Nice2 Done Level2"

@@ -1,0 +1,8 @@
+---
+# defaults file for cisco_requisites
+
+cisco_requisites_banner_type: login
+cisco_requisites_banner_text: "msg_from_ANSIBLE"
+cisco_requisites_banner_state: present
+cisco_requisites_user: richard
+cisco_requisites_password: pass@123 

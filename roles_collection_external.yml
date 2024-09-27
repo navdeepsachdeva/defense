@@ -1,0 +1,10 @@
+- name: Just Test
+  hosts: iosxe1*
+  gather_facts: false
+
+  roles:
+    - role: community.cassandra.cassandra_install
+  tasks:
+    - name: Ensure Cassandra backup enabled
+      community.cassandra.cassandra_backup:
+        state: enabled

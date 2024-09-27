@@ -1,0 +1,19 @@
+---
+# tasks file for cisco_requisites
+
+- name: Banner for the Device
+  cisco.ios.ios_banner:
+    banner: "{{ cisco_requisites_banner_type }}"
+    text: "{{ cisco_requisites_banner_text }}"
+    state: "{{ cisco_requisites_banner_state }}"
+  notify:
+    - Cisco Login Banner Setup
+
+- name: Create User
+  cisco.ios.ios_user:
+    name: "{{ cisco_requisites_user }}"
+    configured_password: "{{ cisco_requisites_password }}"
+    update_password: always
+    state: present
+  notify:
+    - Cisco User Created

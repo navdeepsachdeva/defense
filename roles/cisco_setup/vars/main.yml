@@ -1,0 +1,5 @@
+---
+# vars file for cisco_setup
+
+cisco_setup_nic1_desc: "Nic1 Done Level_15"
+cisco_setup_nic2_desc: "Nice2 Done Level_15"

@@ -1,0 +1,99 @@
+- name: Roles Demo
+  hosts: iosxe1*
+  gather_facts: false
+
+  pre_tasks:
+    - name: Collect Facts Manually 
+      cisco.ios.ios_facts: 
+        gather_subset: 
+          - 'all'
+
+    - name: Print Facts In File
+      ansible.builtin.copy:
+        content: |
+            {{ ansible_facts.net_api }}
+            {{ ansible_facts['net_api'] }}
+            {{ ansible_net_api }}
+            {{ ansible_net_hostname }}
+            {{ ansible_net_image }}
+            {{ ansible_net_serialnum }}
+            {{ ansible_net_python_version }}
+            {{ ansible_net_model }}
+            {{ ansible_net_filesystems_info }}
+            {{ ansible_net_interfaces.GigabitEthernet1.macaddress }}
+        dest: /tmp/info_{{ inventory_hostname }}
+      notify:
+        - pre_task_FACTS_SAVED
+
+    - name: Check Hardware Requirements
+      ansible.builtin.assert:
+        that:
+          - ansible_net_memtotal_mb > 2028060
+          - ansible_net_model == "C8000V"
+        fail_msg: "Hardware Requirements NOT MET"
+        success_msg: "Harware has ENough Resources"
+
+    - name: Send Pre Device Updation to Engineers PRE_TASK
+      ansible.builtin.command: sleep 4
+      notify:
+        - services_down
+
+  roles:
+    - role: cisco_setup
+      cisco_setup_nic1_desc: "Nic1 from PLAY"
+      cisco_setup_nic2_desc: "Nice2 Done Using Play"
+
+  tasks:
+    - name: Save the running-config
+      cisco.ios.ios_command:
+        commands:
+          - copy running-config startup-config
+      vars:
+        ansible_command_timeout: 120
+      notify:
+        - TASKS_PLAY saving Running Config
+
+    - name: Configure DNS settings
+      cisco.ios.ios_system:
+        domain_search:
+          - lab.example.com
+        name_servers:
+          - 172.25.250.220
+          - 172.25.250.221
+      notify:
+        - TASKS_PLAY setup_dns
+
+    - name: Run Import/Include Role
+      ansible.builtin.include_role:
+      # ansible.builtin.import_role:
+        name: interface_role
+      vars:
+        interface_role_desc: "Level20_ROLE_include_vars"
+      when: youyou is not defined
+
+  post_tasks:
+    - name: Send POST Device Updation to Engineers POST_TASK
+      ansible.builtin.command: sleep 4
+      notify:
+        - services_up
+
+  handlers:
+    - name: TASKS_PLAY saving Running Config
+      ansible.builtin.debug:
+        msg: "Running COnfig SAved"
+
+    - name: TASKS_PLAY setup_dns
+      ansible.builtin.debug:
+        msg: "DNS SETTING DONE"
+
+    - name: pre_task_FACTS_SAVED
+      ansible.builtin.debug:
+        msg: " Pre Facts Saved in FIle"
+
+    - name: services_down
+      ansible.builtin.debug:
+        msg: "Instagram Down Please Sleep"
+
+    - name: services_up
+      ansible.builtin.debug:
+        msg: "Instagram UP Start wasting Time"

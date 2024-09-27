@@ -7,15 +7,20 @@ interface_role_desc = "Level3_inventory_file"
 ansible_user=student
 ansible_ssh_private_key_file=~/.ssh/lab_rsa
 
-#[git]
-#git.lab.example.com
+[git]
+git.lab.example.com
 
 [control]
 workstation.lab.example.com
+172.25.250.9
 
 [arista]
 arista1.lab.example.com
 arista2.lab.example.com
+
+[arista:vars]
+ansible_connection=ansible.netcommon.network_cli
+ansible_network_os=arista.eos.eos
 
 [juniper]
 junos1.lab.example.com

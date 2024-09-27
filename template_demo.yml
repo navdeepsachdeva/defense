@@ -1,0 +1,26 @@
+- name: Template Demo Playbook
+  hosts: cisco
+  gather_facts: false 
+  vars_files:
+    - vars/outside_vars.yml
+  tasks:
+    - name: Collect Facts Manually
+      cisco.ios.ios_facts:
+        gather_subset:
+          - 'all'
+
+    - name: Collect Information of Devices
+      ansible.builtin.template:
+        src: j2/collect_info.j2
+        dest: /tmp/device_info
+      delegate_to: workstation.lab.example.com
+    
+    - name: Generate Commands
+      ansible.builtin.template:
+        src: j2/command_template.j2
+        dest: output/command.txt
+
+    - name: Run commands on Device
+      cisco.ios.ios_config:
+        src: output/command.txt
+        backup: true

@@ -1,0 +1,27 @@
+---
+# tasks file for cisco_setup
+
+- name: Interface CHanging Started
+  ansible.builtin.command: sleep 2
+  notify:
+    - change_started
+
+- name: Change First Interface Description
+  cisco.ios.ios_interfaces:
+    config:
+      - name: "{{ cisco_setup_nic1_name }}"
+        description: "{{ cisco_setup_nic1_desc }}"
+        enabled: true
+  notify:
+    - First Interface Changed
+    - Save Configurations
+
+- name: Change Second Interface Description
+  cisco.ios.ios_interfaces:
+    config:
+      - name: "{{ cisco_setup_nic2_name }}"
+        description: "{{ cisco_setup_nic2_desc }}"
+        enabled: true
+  notify:
+    - Second Interface Changed
+    - Save Configurations

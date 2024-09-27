@@ -1,0 +1,9 @@
+{% for some in complex_list%}
+interface {{ some.name }}
+  description {{ some.desc }}
+{% endfor %}
+
+
+{% for check in banner_list%}
+banner {{ check.name }} @\n{{ check.text }}\n@
+{% endfor %}

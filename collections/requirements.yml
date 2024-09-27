@@ -1,0 +1,11 @@
+collections:
+
+  - name: network.vpn
+
+  - name: redhat.openshift
+
+  - name: cisco.catalystwan
+    version: 0.1.1
+
+  - name: community.cassandra
+
