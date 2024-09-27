@@ -48,6 +48,12 @@
       vars:
         interface_role_desc: "Level16_block_vars"
 
+    - name: Task File
+      ansible.builtin.include_tasks:
+        file: tasks/cisco_int.yml
+      vars:
+        interface_role_desc: "Level21_include_params"
+
     - name: Outside Block Task 1
       ansible.builtin.debug:
         msg: "Level = {{ interface_role_desc }}"

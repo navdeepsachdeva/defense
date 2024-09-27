@@ -1,0 +1,15 @@
+
+## Information about {{ inventory_hostname }} ##
+Inventory Host	= 	{{ inventory_hostname }}
+API		=	{{ ansible_facts.net_api }}
+API		=	{{ ansible_facts['net_api'] }}
+API		=	{{ ansible_net_api }}
+Hostname	=	{{ ansible_net_hostname }}
+Image		=	{{ ansible_net_image }}
+Serial Number	=	{{ ansible_net_serialnum }}
+Python Version	=	{{ ansible_net_python_version }}
+Model		=	{{ ansible_net_model }}
+FileSYetm	=	{{ ansible_net_filesystems_info }}
+Mac Address GI1	=	{{ ansible_net_interfaces.GigabitEthernet1.macaddress }}
+Mac Address GI2	=	{{ ansible_net_interfaces.GigabitEthernet2.macaddress }}
+

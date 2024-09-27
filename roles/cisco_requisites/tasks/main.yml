@@ -1,6 +1,12 @@
 ---
 # tasks file for cisco_requisites
 
+
+- name: Collect Information of Devices
+  ansible.builtin.template:
+    src: j2/collect_info.j2
+    dest: /tmp/device_info
+
 - name: Banner for the Device
   cisco.ios.ios_banner:
     banner: "{{ cisco_requisites_banner_type }}"
@@ -17,3 +23,4 @@
     state: present
   notify:
     - Cisco User Created
+

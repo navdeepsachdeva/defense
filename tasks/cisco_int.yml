@@ -1,0 +1,3 @@
+- name: Task File
+  ansible.builtin.debug:
+    msg: "Level = {{ interface_role_desc }}"
